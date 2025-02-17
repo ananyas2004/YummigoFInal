@@ -1,0 +1,76 @@
+.add {
+    width: 70%;
+    margin-left: max(5vw, 25px);
+    margin-top: 50px;
+    color: #6D6D6D;
+    font-size: 16px;
+}
+
+.add form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff; /* Ensures a clean white background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for a polished look */
+}
+
+.add-img-upload img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px; /* Rounded corners for the image */
+    object-fit: cover; /* Ensures proper scaling */
+    border: 2px solid #95345c; /* Theme border */
+    cursor: pointer;
+}
+
+.add-product-name, .add-product-description {
+    width: max(40%, 280px);
+    display: flex;
+    flex-direction: column;
+}
+
+.add-product-name input, .add-product-description textarea {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #A9A9A9;
+    border-radius: 5px;
+}
+
+.add-product-description textarea {
+    resize: none;
+}
+
+.add-category-price {
+    display: flex;
+    gap: 30px;
+}
+
+.add-category-price select, .add-category-price input {
+    max-width: 120px;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #A9A9A9;
+    border-radius: 5px;
+    color: #6D6D6D;
+}
+
+.add-btn {
+    max-width: 120px;
+    border: none;
+    padding: 10px;
+    background-color: #95345c; /* Button with theme color */
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+    background-color: #7e2b4e; /* Slightly darker shade for hover effect */
+}
+
+.add-btn:active {
+    transform: scale(0.98); /* Click effect */
+}

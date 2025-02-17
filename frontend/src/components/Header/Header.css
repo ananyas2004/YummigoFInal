@@ -1,0 +1,95 @@
+/* Header styling */
+.header {
+    height: 34vw;
+    margin: 30px auto;
+    background: url('../../assets/mainpic.jpg') no-repeat;
+    background-position: center;
+    filter: blur(0.5px) contrast(1);
+    -webkit-mask-image: linear-gradient(to left, rgb(17, 14, 14) 10%, rgba(14, 12, 12, 0) 60%);
+    mask-image: linear-gradient(to left, rgb(7, 7, 7) 100%, rgba(10, 9, 9, 0) 100%);
+    background-size: cover;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Header contents styling */
+.header-contents {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5vw;
+    max-width: 50%;
+    bottom: 10%;
+    left: 4vw; /* Shifted to the left */
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 3s forwards; /* Fades in the whole container */
+}
+
+/* Heading animation */
+.header-contents h2 {
+    font-weight: 500;
+    color: white;
+    font-size: max(4.5vw, 22px);
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 2s forwards;
+    animation-delay: 0.5s; /* Slight delay for staggered effect */
+}
+
+/* Paragraph animation */
+.header-contents p {
+    color: white;
+    font-size: 1vw;
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 2s forwards;
+    animation-delay: 1s; /* Staggered after h2 */
+}
+
+/* Button animation */
+.header-contents button {
+    border: none;
+    color: #747474;
+    font-weight: 500;
+    padding: 1vw 2.3vw;
+    background: white;
+    font-size: max(1vw, 13px);
+    border-radius: 50px;
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 2s forwards;
+    animation-delay: 1.5s; /* Staggered after paragraph */
+}
+
+/* Keyframes for animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Slide up effect */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1050px) {
+    .header {
+        height: 38vw;
+    }
+    .header-contents {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 750px) {
+    .header-contents {
+        max-width: 55%;
+    }
+    .header-contents p {
+        display: none; /* Hide paragraph for smaller screens */
+    }
+    .header-contents button {
+        padding: 2vw 4vw;
+    }
+}
