@@ -1,7 +1,7 @@
 /* Header styling */
 .header {
     height: 34vw;
-    margin: 30px auto;
+    margin: 3px auto;
     background: url('../../assets/mainpic.jpg') no-repeat;
     background-position: center;
     filter: blur(0.5px) contrast(1);

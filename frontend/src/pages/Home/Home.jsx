@@ -9,14 +9,15 @@ const Home = () => {
 
   const [category,setCategory] = useState("All")
   const foodOptions = [
-    "Pizza",
-    "Burger",
+    "Noodles",
     "Pasta",
     "Salad",
     "Ice Cream",
-    "Sushi",
-    "Tacos",
-    "Sandwich"
+    "Sandwich",
+    "Rolls",
+    "Desserts",
+    "Cake",
+    "Pure Veg",
   ];
   return (
     <>

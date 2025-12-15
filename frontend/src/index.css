@@ -10,6 +10,11 @@
 
 body {
   min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(1, 1, 1, 0.9));
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed; /* Optional: Keeps the image fixed while scrolling */
+  animation: fadeIn 1s ease-in-out; /* Optional: Adds a fade-in effect */
 }
 
 a {

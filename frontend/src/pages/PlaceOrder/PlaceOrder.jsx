@@ -9,6 +9,8 @@ import axios from 'axios';
 const PlaceOrder = () => {
 
     const [payment, setPayment] = useState("cod")
+    const [upiId, setUpiId] = useState("")
+    const [showUpiInput, setShowUpiInput] = useState(false)
     const [data, setData] = useState({
         firstName: "",
         lastName: "",
@@ -21,7 +23,7 @@ const PlaceOrder = () => {
         phone: ""
     })
 
-    const { getTotalCartAmount, token, food_list, cartItems, url, setCartItems,currency,deliveryCharge } = useContext(StoreContext);
+    const { getTotalCartAmount, token, food_list, cartItems, url, setCartItems, currency, deliveryCharge } = useContext(StoreContext);
 
     const navigate = useNavigate();
 
@@ -31,8 +33,21 @@ const PlaceOrder = () => {
         setData(data => ({ ...data, [name]: value }))
     }
 
+    const validateUpiId = (upiId) => {
+        // Basic UPI ID validation (username@provider)
+        const upiRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z]{3,}$/;
+        return upiRegex.test(upiId);
+    }
+
     const placeOrder = async (e) => {
         e.preventDefault()
+        
+        // Validate UPI ID if UPI payment is selected
+        if (payment === "upi" && !validateUpiId(upiId)) {
+            toast.error("Please enter a valid UPI ID");
+            return;
+        }
+        
         let orderItems = [];
         food_list.map(((item) => {
             if (cartItems[item._id] > 0) {
@@ -41,33 +56,53 @@ const PlaceOrder = () => {
                 orderItems.push(itemInfo)
             }
         }))
+        
         let orderData = {
             address: data,
             items: orderItems,
             amount: getTotalCartAmount() + deliveryCharge,
+            paymentMethod: payment,
+            upiId: payment === "upi" ? upiId : null,
+            trackingStatus: "order_placed" // Initial tracking status
         }
-        if (payment === "stripe") {
-            let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
-            if (response.data.success) {
-                const { session_url } = response.data;
-                window.location.replace(session_url);
+        
+        try {
+            if (payment === "stripe") {
+                let response = await axios.post(url + "/api/order/place", orderData, { headers: { token } });
+                if (response.data.success) {
+                    const { session_url } = response.data;
+                    window.location.replace(session_url);
+                }
+                else {
+                    toast.error("Something Went Wrong")
+                }
+            }
+            else if (payment === "upi") {
+                let response = await axios.post(url + "/api/order/placeupi", orderData, { headers: { token } });
+                if (response.data.success) {
+                    navigate("/trackorder/" + response.data.orderId);
+                    toast.success(response.data.message);
+                    setCartItems({});
+                }
+                else {
+                    toast.error(response.data.message || "Something Went Wrong")
+                }
             }
             else {
-                toast.error("Something Went Wrong")
+                let response = await axios.post(url + "/api/order/placecod", orderData, { headers: { token } });
+                if (response.data.success) {
+                    navigate("/trackorder/" + response.data.orderId);
+                    toast.success(response.data.message);
+                    setCartItems({});
+                }
+                else {
+                    toast.error(response.data.message || "Something Went Wrong")
+                }
             }
+        } catch (error) {
+            console.error("Order placement error:", error);
+            toast.error("Failed to place order. Please try again.");
         }
-        else{
-            let response = await axios.post(url + "/api/order/placecod", orderData, { headers: { token } });
-            if (response.data.success) {
-                navigate("/myorders")
-                toast.success(response.data.message)
-                setCartItems({});
-            }
-            else {
-                toast.error("Something Went Wrong")
-            }
-        }
-
     }
 
     useEffect(() => {
@@ -79,6 +114,11 @@ const PlaceOrder = () => {
             navigate('/cart')
         }
     }, [token])
+
+    // Show/hide UPI input field based on payment method
+    useEffect(() => {
+        setShowUpiInput(payment === "upi");
+    }, [payment]);
 
     return (
         <form onSubmit={placeOrder} className='place-order'>
@@ -115,14 +155,35 @@ const PlaceOrder = () => {
                     <h2>Payment Method</h2>
                     <div onClick={() => setPayment("cod")} className="payment-option">
                         <img src={payment === "cod" ? assets.checked : assets.un_checked} alt="" />
-                        <p>COD ( Cash on delivery )</p>
+                        <p>COD (Cash on delivery)</p>
                     </div>
-                    {/* <div onClick={() => setPayment("stripe")} className="payment-option">
+                    <div onClick={() => setPayment("upi")} className="payment-option">
+                        <img src={payment === "upi" ? assets.checked : assets.un_checked} alt="" />
+                        <p>UPI Payment</p>
+                    </div>
+                    <div onClick={() => setPayment("stripe")} className="payment-option">
                         <img src={payment === "stripe" ? assets.checked : assets.un_checked} alt="" />
-                        <p>Stripe ( Credit / Debit )</p>
-                    </div> */}
+                        <p>Stripe (Credit / Debit)</p>
+                    </div>
+                    
+                    {showUpiInput && (
+                        <div className="upi-input-container">
+                            <input 
+                                type="text" 
+                                placeholder="Enter UPI ID (username@upi)" 
+                                value={upiId} 
+                                onChange={(e) => setUpiId(e.target.value)} 
+                                className="upi-input"
+                                required={payment === "upi"}
+                            />
+                            <p className="upi-info">Please enter a valid UPI ID (e.g., username@okaxis)</p>
+                        </div>
+                    )}
                 </div>
-                <button className='place-order-submit' type='submit'>{payment==="cod"?"Place Order":"Proceed To Payment"}</button>
+                <button className='place-order-submit' type='submit'>
+                    {payment === "cod" ? "Place Order" : 
+                     payment === "upi" ? "Pay with UPI" : "Proceed To Payment"}
+                </button>
             </div>
         </form>
     )
