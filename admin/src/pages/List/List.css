@@ -2,24 +2,25 @@
     width: 90%;
     margin: 50px auto;
     font-size: 16px;
-    color: #6D6D6D;
+    color: #d0d0d0;
 }
 
 .list p {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
-    color: #95345c;
+    color: #FF6B35;
     text-align: left;
 }
 
 .list-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background-color: #1a1a1a;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 1px solid #333333;
 }
 
 .list-table-format {
@@ -28,23 +29,26 @@
     align-items: center;
     gap: 10px;
     padding: 12px 15px;
-    border-bottom: 1px solid #cacaca;
+    border-bottom: 1px solid #333333;
     font-size: 14px;
     transition: all 0.2s ease;
+    color: #d0d0d0;
 }
 
 .list-table-format.title {
-    background-color: #f9f9f9;
+    background-color: #252525;
     font-weight: bold;
     text-transform: uppercase;
-    color: #95345c;
+    color: #FF6B35;
     font-size: 14px;
+    border-bottom: 2px solid #FF6B35;
 }
 
 .list-table-format img {
     width: 70px;
     border-radius: 10px;
     object-fit: cover;
+    border: 1px solid #333333;
 }
 
 .list-table-format p {
@@ -52,14 +56,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #d0d0d0;
 }
 
 .list-table-format:hover {
-    background-color: #fff0ed; /* Light shade for hover effect */
+    background-color: rgba(255, 107, 53, 0.1);
+    border-bottom-color: #FF6B35;
 }
 
 .list-table-format p.cursor {
-    color: #95345c;
+    color: #FF6B35;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
@@ -67,7 +73,8 @@
 }
 
 .list-table-format p.cursor:hover {
-    color: #7e2b4e; /* Darker theme color for hover */
+    color: #E85D3F;
+    transform: scale(1.1);
 }
 
 @media (max-width: 600px) {

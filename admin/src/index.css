@@ -4,10 +4,11 @@
   margin: 0;
   box-sizing: border-box;
   font-family: Outfit;
+  
 }
 body{
   min-height: 100vh;
-  background-color: #FCFCFC;
+  background-color: #3f3e3e;
 }
 a{
   text-decoration: none;
